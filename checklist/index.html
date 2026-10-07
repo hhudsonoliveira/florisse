@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Checklist Florisse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Layout: one calm reading column, a sticky progress strip, sections as quiet groups; product cards are the only boxed objects. */
+:root {
+  --bg: #f6f8f3;
+  --surface: #ffffff;
+  --ink: #1f2a22;
+  --muted: #5d6a60;
+  --line: #dde4d8;
+  --leaf: #2f6b4f;        /* spirulina green, main accent */
+  --leaf-soft: #e3efe7;
+  --citrus: #e59a2a;      /* vitamin C, used only for "essencial" */
+  --citrus-soft: #fbefd9;
+  --font-display: "Young Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141a16; --surface: #1c241f; --ink: #e8eee7; --muted: #a1ada3; --line: #2e3a32;
+    --leaf: #7cc39d; --leaf-soft: #22342a; --citrus: #f0b45a; --citrus-soft: #3a2f1c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141a16; --surface: #1c241f; --ink: #e8eee7; --muted: #a1ada3; --line: #2e3a32;
+  --leaf: #7cc39d; --leaf-soft: #22342a; --citrus: #f0b45a; --citrus-soft: #3a2f1c;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+[hidden] { display: none !important; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.55;
+  padding-inline: 16px; padding-block: 0 64px;
+}
+.wrap { max-width: 720px; margin: 0 auto; }
+header.intro { padding-block: 48px 24px; display: grid; gap: 12px; }
+.eyebrow { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--leaf); font-weight: 600; }
+h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(32px, 7vw, 46px); line-height: 1.1; margin: 0; text-wrap: balance; }
+.lede { color: var(--muted); margin: 0; max-width: 60ch; }
+.how { display: grid; gap: 6px; margin: 8px 0 0; padding: 0; list-style: none; color: var(--muted); font-size: 15px; }
+.how li { display: flex; gap: 10px; }
+.how b { color: var(--ink); font-weight: 600; min-width: 1.2em; }
+
+.progress {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--bg); padding-block: 12px; border-bottom: 1px solid var(--line);
+  display: grid; gap: 8px;
+}
+.progress-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; font-size: 14px; }
+.progress-row strong { font-variant-numeric: tabular-nums; font-weight: 600; }
+.bar { height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; }
+.bar span { display: block; height: 100%; width: 0; background: var(--leaf); border-radius: 99px; transition: width .3s ease; }
+.legend { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); }
+
+section.group { padding-block: 32px 8px; display: grid; gap: 14px; }
+.group-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+h2 { font-family: var(--font-display); font-weight: 400; font-size: 24px; margin: 0; }
+.count { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.group-note { margin: -6px 0 0; color: var(--muted); font-size: 15px; max-width: 60ch; }
+
+ul.items { list-style: none; margin: 0; padding: 0; display: grid; }
+ul.items li + li { border-top: 1px solid var(--line); }
+label.item { display: grid; grid-template-columns: 24px 1fr; gap: 12px; padding-block: 12px; cursor: pointer; align-items: start; }
+.item input { appearance: none; width: 22px; height: 22px; margin: 1px 0 0; border: 1.5px solid var(--muted); border-radius: 6px; display: grid; place-content: center; cursor: pointer; background: var(--surface); }
+.item input::after { content: ""; width: 11px; height: 6px; border-left: 2px solid var(--surface); border-bottom: 2px solid var(--surface); transform: rotate(-45deg) translate(1px, -1px); opacity: 0; }
+.item input:checked { background: var(--leaf); border-color: var(--leaf); }
+.item input:checked::after { opacity: 1; }
+.item input:focus-visible { outline: 2px solid var(--leaf); outline-offset: 2px; }
+.item-text { min-width: 0; display: grid; gap: 2px; }
+.item-title { font-weight: 500; }
+.item-hint { font-size: 14px; color: var(--muted); }
+.item input:checked + .item-text .item-title { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--line); }
+.tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--citrus); background: var(--citrus-soft); padding: 1px 7px; border-radius: 99px; margin-left: 6px; vertical-align: 2px; }
+
+.products { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 14px; }
+.product { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 6px 18px 8px; min-width: 0; }
+.product h3 { font-family: var(--font-display); font-weight: 400; font-size: 19px; margin: 12px 0 2px; }
+.product .sub { font-size: 13px; color: var(--muted); margin: 0 0 4px; }
+
+.notes { display: grid; gap: 8px; }
+.notes label { font-weight: 500; }
+textarea { width: 100%; min-height: 110px; resize: vertical; font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+textarea:focus-visible { outline: 2px solid var(--leaf); outline-offset: 1px; }
+
+.send { margin-top: 40px; padding: 24px; background: var(--leaf-soft); border-radius: 16px; display: grid; gap: 12px; }
+.send h2 { font-size: 22px; }
+.send p { margin: 0; color: var(--muted); max-width: 60ch; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+button.primary { font: inherit; font-weight: 600; background: var(--leaf); color: var(--surface); border: 0; border-radius: 99px; padding: 12px 22px; cursor: pointer; }
+button.primary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.status { font-size: 14px; color: var(--leaf); font-weight: 500; }
+#fallback { width: 100%; min-height: 160px; font-size: 14px; }
+footer { margin-top: 32px; font-size: 13px; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .bar span { transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="intro">
+    <div class="eyebrow">Loja online Florisse</div>
+    <h1>O que precisamos para criar o seu site</h1>
+    <p class="lede">Dayse, esta é a lista do material para a loja da Florisse. Não precisa de mandar tudo de uma vez. Comece pelos itens marcados como <span class="tag" style="margin:0">essencial</span>, que são os que permitem começar o desenvolvimento.</p>
+    <ul class="how">
+      <li><b>1</b><span>Envie os arquivos para a pasta do Google Drive que vou partilhar consigo.</span></li>
+      <li><b>2</b><span>Marque aqui cada item que já enviou. As marcações ficam guardadas neste navegador.</span></li>
+      <li><b>3</b><span>No fim da página, copie o resumo e mande-me pelo WhatsApp.</span></li>
+    </ul>
+  </header>
+
+  <div class="progress" aria-live="polite">
+    <div class="progress-row">
+      <span><strong id="done">0</strong> de <strong id="total">0</strong> itens enviados</span>
+      <span class="legend">Essenciais: <strong id="ess">0/0</strong></span>
+    </div>
+    <div class="bar"><span id="barfill"></span></div>
+  </div>
+
+  <main id="list"></main>
+
+  <section class="group notes">
+    <div class="group-head"><h2>Observações</h2></div>
+    <label for="notes">Alguma dúvida, ideia ou coisa que ainda não tem?</label>
+    <textarea id="notes" placeholder="Ex.: ainda não tenho fotos do spray, vou fazer na próxima semana."></textarea>
+  </section>
+
+  <section class="send">
+    <h2>Mandar o resumo</h2>
+    <p>O botão copia uma lista com o que já foi enviado, o que falta e as suas observações. Depois é só colar no WhatsApp.</p>
+    <div class="actions">
+      <button class="primary" id="copy" type="button">Copiar resumo</button>
+      <span class="status" id="status" role="status"></span>
+    </div>
+    <textarea id="fallback" hidden readonly aria-label="Resumo para copiar"></textarea>
+  </section>
+
+  <footer>Os produtos listados vieram do Instagram da Florisse. Se algum nome mudou ou houver outro produto, escreva nas observações.</footer>
+</div>
+
+<script>
+const GROUPS = [
+  { id: "id", title: "Identidade visual", note: "É o que define as cores, as letras e o estilo do site.", items: [
+    ["logo", "Logótipo em arquivo original", "AI, SVG ou PDF. Se só tiver PNG, mande na maior resolução possível.", true],
+    ["cores", "Cores da marca", "Se tiver manual de marca, mande o arquivo. Se não tiver, diga as cores de que gosta e as que não quer de jeito nenhum.", true],
+    ["fontes", "Fontes (tipos de letra)", "Só se a marca já usar alguma específica.", false],
+    ["refs", "3 a 5 sites ou marcas que admira", "Pode ser de cosmética ou não. Basta mandar os links.", true],
+    ["rotulos", "Fotos ou arquivos dos rótulos e embalagens", "O site deve conversar com o produto físico.", false]
+  ]},
+  { id: "prod", title: "Produtos", note: "Uma ficha por produto. Se algum estiver em desenvolvimento, diga nas observações.", products: [
+    ["serum", "Sérum de Vitamina C", "Luminosidade e manchas"],
+    ["creme", "Creme Hidratante de Espirulina", "Hidratação e antioxidante"],
+    ["spray", "Spray Unhas e Cabelo", "Cuidado de unhas e cabelo"],
+    ["kit", "Kit Bem M'Quer", "Ou outro kit que queira vender"]
+  ], fields: [
+    ["nome", "Nome final e tamanho (ml ou g)", true],
+    ["preco", "Preço de venda", true],
+    ["desc", "Para que serve e para que tipo de pele", true],
+    ["ativos", "Principais ativos e benefícios", false],
+    ["uso", "Modo de uso", false],
+    ["inci", "Lista de ingredientes (INCI)", true],
+    ["stock", "Quantidade em stock", false]
+  ]},
+  { id: "foto", title: "Fotos e vídeos", note: "É o que mais influencia a venda. Se não houver fotos boas dos produtos, podemos combinar uma sessão fotográfica.", items: [
+    ["fprod", "Fotos dos produtos com fundo limpo", "Fundo branco ou de uma cor só, uma foto por produto e alguns ângulos.", true],
+    ["fambiente", "Fotos de ambiente", "Produto em uso, texturas, flores, a bancada de trabalho.", false],
+    ["fdayse", "Fotos profissionais suas", "As do ensaio com a mentoria servem muito bem.", true],
+    ["reels", "Vídeos que explicam os produtos", "Os reels da série sobre cada produto podem entrar nas páginas da loja.", false]
+  ]},
+  { id: "txt", title: "Textos", note: "Pode mandar por áudio no WhatsApp. Eu transcrevo e organizo.", items: [
+    ["historia", "A sua história e a da Florisse", "Para a página Sobre: como começou, porquê cosmética, o que a move.", true],
+    ["missao", "A frase que resume a marca", "Por exemplo: \"beleza de dentro para fora\".", false],
+    ["depo", "Depoimentos de clientes", "Prints de mensagens também servem (pedimos autorização antes de publicar).", false]
+  ]},
+  { id: "neg", title: "Dados do negócio", note: "Aparecem no rodapé do site e nas faturas.", items: [
+    ["empresa", "Nome da empresa, NIF e morada", "", true],
+    ["contato", "E-mail e WhatsApp para os clientes", "", true],
+    ["redes", "Links das redes sociais", "", false],
+    ["dominio", "Domínio (florisse.pt ou .com)", "Diga se já tem. Se não tiver, verifico se está disponível.", true],
+    ["fatura", "Programa de faturação que já usa", "Moloni, InvoiceXpress ou outro. Se não usar nenhum, eu indico.", false],
+    ["cpnp", "Produtos notificados no CPNP", "Confirmar com o laboratório. É obrigatório para vender cosméticos na UE.", true]
+  ]},
+  { id: "op", title: "Envios e funcionamento", note: "Respostas curtas chegam. Isto define como a loja vai funcionar no dia a dia.", items: [
+    ["destino", "Para onde vai enviar", "Só Portugal continental, também as ilhas, ou União Europeia?", true],
+    ["frete", "Valor para portes grátis", "A partir de quanto a cliente não paga envio (se quiser oferecer).", false],
+    ["troca", "Política de trocas e devoluções", "", false],
+    ["quem", "Quem embala e envia as encomendas", "", false],
+    ["presencial", "Se vende nos atendimentos de facial", "Assim o stock da loja e o presencial ficam juntos.", false]
+  ]}
+];
+
+const KEY = "florisse-checklist-v1";
+let state = { checked: {}, notes: "" };
+try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && typeof s === "object") state = { checked: s.checked || {}, notes: s.notes || "" }; } catch (e) {}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+// Flatten everything into one list of {id, label, essential, group, product?}
+const ALL = [];
+GROUPS.forEach(g => {
+  if (g.products) {
+    g.products.forEach(([pid, pname]) => g.fields.forEach(([fid, flabel, ess]) =>
+      ALL.push({ id: `${g.id}.${pid}.${fid}`, label: flabel, essential: ess, group: g.title, product: pname })));
+  } else {
+    g.items.forEach(([iid, label, hint, ess]) => ALL.push({ id: `${g.id}.${iid}`, label, hint, essential: ess, group: g.title }));
+  }
+});
+
+function itemHTML(id, label, hint, ess) {
+  return `<li><label class="item"><input type="checkbox" id="c-${id}" data-id="${id}" ${state.checked[id] ? "checked" : ""}>
+    <span class="item-text"><span class="item-title">${label}${ess ? '<span class="tag">essencial</span>' : ""}</span>
+    ${hint ? `<span class="item-hint">${hint}</span>` : ""}</span></label></li>`;
+}
+
+function render() {
+  const out = GROUPS.map(g => {
+    let body;
+    if (g.products) {
+      body = `<div class="products">${g.products.map(([pid, pname, psub]) => `
+        <div class="product"><h3>${pname}</h3><p class="sub">${psub}</p>
+        <ul class="items">${g.fields.map(([fid, fl, ess]) => itemHTML(`${g.id}.${pid}.${fid}`, fl, "", ess)).join("")}</ul></div>`).join("")}</div>`;
+    } else {
+      body = `<ul class="items">${g.items.map(([iid, l, h, e]) => itemHTML(`${g.id}.${iid}`, l, h, e)).join("")}</ul>`;
+    }
+    return `<section class="group" aria-labelledby="h-${g.id}">
+      <div class="group-head"><h2 id="h-${g.id}">${g.title}</h2><span class="count" data-count="${g.title}"></span></div>
+      <p class="group-note">${g.note}</p>${body}</section>`;
+  }).join("");
+  document.getElementById("list").innerHTML = out;
+  document.getElementById("notes").value = state.notes;
+  update();
+}
+
+function update() {
+  const done = ALL.filter(i => state.checked[i.id]).length;
+  const ess = ALL.filter(i => i.essential);
+  const essDone = ess.filter(i => state.checked[i.id]).length;
+  document.getElementById("done").textContent = done;
+  document.getElementById("total").textContent = ALL.length;
+  document.getElementById("ess").textContent = `${essDone}/${ess.length}`;
+  document.getElementById("barfill").style.width = `${Math.round(done / ALL.length * 100)}%`;
+  GROUPS.forEach(g => {
+    const items = ALL.filter(i => i.group === g.title);
+    const el = document.querySelector(`[data-count="${g.title}"]`);
+    if (el) el.textContent = `${items.filter(i => state.checked[i.id]).length} de ${items.length}`;
+  });
+}
+
+document.getElementById("list").addEventListener("change", e => {
+  const id = e.target.dataset && e.target.dataset.id;
+  if (!id) return;
+  if (e.target.checked) state.checked[id] = true; else delete state.checked[id];
+  save(); update();
+});
+document.getElementById("notes").addEventListener("input", e => { state.notes = e.target.value; save(); });
+
+function summary() {
+  const name = i => i.product ? `${i.product}: ${i.label}` : i.label;
+  const done = ALL.filter(i => state.checked[i.id]).length;
+  let t = `Checklist Florisse: ${done} de ${ALL.length} itens enviados\n`;
+  GROUPS.forEach(g => {
+    const items = ALL.filter(i => i.group === g.title);
+    const sent = items.filter(i => state.checked[i.id]);
+    const miss = items.filter(i => !state.checked[i.id]);
+    t += `\n*${g.title}* (${sent.length}/${items.length})\n`;
+    sent.forEach(i => t += `✅ ${name(i)}\n`);
+    miss.forEach(i => t += `⬜ ${name(i)}${i.essential ? " (essencial)" : ""}\n`);
+  });
+  if (state.notes.trim()) t += `\n*Observações*\n${state.notes.trim()}\n`;
+  return t;
+}
+
+document.getElementById("copy").addEventListener("click", () => {
+  const text = summary();
+  const status = document.getElementById("status");
+  const fb = document.getElementById("fallback");
+  const showFallback = () => {
+    fb.value = text; fb.hidden = false; fb.focus(); fb.select();
+    status.textContent = "Selecione o texto abaixo e copie.";
+  };
+  try {
+    navigator.clipboard.writeText(text).then(() => {
+      fb.hidden = true; status.textContent = "Resumo copiado. Agora é só colar no WhatsApp.";
+    }, showFallback);
+  } catch (e) { showFallback(); }
+});
+
+render();
+</script>
+</body>
+</html>
