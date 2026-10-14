@@ -164,7 +164,7 @@ footer { margin-top: 32px; font-size: 13px; color: var(--muted); }
     <textarea id="fallback" hidden readonly aria-label="Resumo para copiar"></textarea>
   </section>
 
-  <footer>Os produtos listados vieram do Instagram da Florisse. Se algum nome mudou ou houver outro produto, escreva nas observações.</footer>
+  <footer>Os produtos listados são os da nova linha que já recebi. Os próximos entram aqui à medida que chegarem.</footer>
 </div>
 
 <script>
@@ -180,24 +180,40 @@ const GROUPS = [
     ["fontes", "Licenças comerciais das fontes", "A Bogota veio só para uso pessoal e a The Seasons em versão demo. Para usar no site é preciso comprar a licença web. A Sinter não veio na pasta. Se preferir, uso fontes gratuitas parecidas.", true, "new"],
     ["refs", "3 a 5 sites ou marcas que admira", "Pode ser de cosmética ou não. Basta mandar os links.", false]
   ]},
-  { id: "prod", title: "Produtos", note: "Uma ficha por produto. Se algum estiver em desenvolvimento, diga nas observações.", items: [
-    ["linha", "Confirmar os nomes da linha", "Nos mockups aparecem Sínata, Renovit Sérum, Floraphil Menta, Florashin e Máscara Condicionante. São nomes reais ou exemplos do designer? Quais vão ser vendidos?", true, "new"]
+  { id: "prod", title: "Produtos", note: "Já recebi as fichas do Sérum, do Creme e do Kit Ritual Aromático, e sei que tudo vai ser vendido em separado e em kits, sempre conforme o stock. Para cada produto novo, envie os mesmos dados destas fichas.", items: [
+    ["linha", "Lista completa dos produtos da nova linha", "Nome de cada produto, se é para rosto ou corpo e se já está pronto para venda.", true, "new"],
+    ["lateral", "Foto de perto da lateral de cada rótulo", "Assim tiro a lista de ingredientes (INCI) diretamente do rótulo.", false, "new"],
+    ["kitescolha", "No Kit Ritual, a cliente escolhe o queimador e a fragrância?", "Ou o kit vem com um modelo e uma fragrância definidos por si?", true, "new"],
+    ["avulsos", "Velas tealight e fósforos também são vendidos à parte?", "Já sei que o queimador e as caixas de wax melts vão ser vendidos separadamente.", false, "new"],
+    ["kitspele", "Kits de cuidado com a pele", "Por exemplo Sérum + Creme. Diga que kits quer ter e o preço de cada um.", false, "new"]
   ], products: [
-    ["serum", "Sérum de Vitamina C", "Luminosidade e manchas"],
-    ["creme", "Creme Hidratante de Espirulina", "Hidratação e antioxidante"],
-    ["spray", "Spray Unhas e Cabelo", "Cuidado de unhas e cabelo"],
-    ["kit", "Kit Bem M'Quer", "Ou outro kit que queira vender"]
+    ["serumh", "Sérum Facial Hidratante", "30 ml · Niacinamida e ácido hialurónico", ["nome", "desc", "ativos", "uso"]],
+    ["hydralock", "Creme HydraLock Barrier", "50 ml · Péptidos e antioxidantes", ["nome", "preco", "desc", "ativos", "uso"]],
+    ["ritual", "Kit Ritual Aromático", "Queimador, wax melts, velas e fósforos", ["nome", "desc", "uso"], ["ativos", "inci"], [
+      ["fragancias", "Fragrâncias dos wax melts e rótulo de segurança", "Velas e wax melts perfumados precisam de rótulo com alergénios e avisos de segurança (regras CLP da UE).", true],
+      ["fotokit", "Fotos do kit aberto e completo", "", true]
+    ]],
+    ["queimador", "Queimadores", "Vendidos à parte, em vários modelos", ["desc"], ["ativos", "inci", "uso"], [
+      ["modelos", "Nome e foto de cada modelo", "A cliente escolhe o modelo na loja, conforme o stock.", true],
+      ["material", "Material e medidas", "Por exemplo: cerâmica, altura e largura.", false]
+    ]],
+    ["wax", "Caixas de wax melts", "Produção artesanal, em caixinhas prontas", ["desc"], ["ativos", "inci"], [
+      ["fragr", "Lista de fragrâncias disponíveis", "Só as que tiver em stock. Na loja, cada fragrância é uma opção com stock próprio.", true],
+      ["conteudo", "Conteúdo da caixa", "Peso total e número de peças.", false],
+      ["clp", "Rótulo de segurança (CLP)", "Wax melts perfumados precisam de rótulo com alergénios e avisos de segurança.", true],
+      ["fotowax", "Fotos das caixas e dos formatos", "Flores, rosas, folhas e corações.", true]
+    ]]
   ], fields: [
     ["nome", "Nome final e tamanho (ml ou g)", true],
     ["preco", "Preço de venda", true],
-    ["desc", "Para que serve e para que tipo de pele", true],
+    ["desc", "Descrição e para que serve", true],
     ["ativos", "Principais ativos e benefícios", false],
     ["uso", "Modo de uso", false],
     ["inci", "Lista de ingredientes (INCI)", true],
     ["stock", "Quantidade em stock", false]
   ]},
   { id: "foto", title: "Fotos e vídeos", note: "É o que mais influencia a venda. Os mockups do manual mostram o estilo, mas a loja precisa de fotos dos produtos reais. Se não houver, podemos combinar uma sessão fotográfica.", items: [
-    ["fprod", "Fotos dos produtos reais com fundo limpo", "Fundo de uma cor só, uma foto por produto e alguns ângulos.", true],
+    ["fprod", "Fotos dos produtos reais com fundo limpo", "Já recebi fotos de telemóvel do Sérum e do Creme, que servem de referência. Para a loja precisamos de fundo liso, luz natural e alguns ângulos.", true],
     ["fambiente", "Fotos de ambiente", "Produto em uso, texturas, flores, a bancada de trabalho.", false],
     ["fdayse", "Fotos profissionais suas", "As do ensaio com a mentoria servem muito bem.", true],
     ["reels", "Vídeos que explicam os produtos", "Os reels da série sobre cada produto podem entrar nas páginas da loja.", false]
@@ -233,8 +249,11 @@ function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catc
 const ALL = [];
 GROUPS.forEach(g => {
   (g.items || []).forEach(([iid, label, hint, ess, flag]) => ALL.push({ id: `${g.id}.${iid}`, label, hint, essential: ess, flag, group: g.title }));
-  (g.products || []).forEach(([pid, pname]) => g.fields.forEach(([fid, flabel, ess]) =>
-    ALL.push({ id: `${g.id}.${pid}.${fid}`, label: flabel, essential: ess, group: g.title, product: pname })));
+  (g.products || []).forEach(([pid, pname, , got = [], skip = [], extra = []]) => {
+    g.fields.filter(([fid]) => !skip.includes(fid)).forEach(([fid, flabel, ess]) =>
+      ALL.push({ id: `${g.id}.${pid}.${fid}`, label: flabel, essential: ess, flag: got.includes(fid) ? "ok" : undefined, group: g.title, product: pname }));
+    extra.forEach(([fid, flabel, , ess]) => ALL.push({ id: `${g.id}.${pid}.${fid}`, label: flabel, essential: ess, group: g.title, product: pname }));
+  });
 });
 const isDone = i => i.flag === "ok" || !!state.checked[i.id];
 
@@ -253,9 +272,9 @@ function render() {
     let body = "";
     if (g.items) body += `<ul class="items">${g.items.map(([iid, l, h, e, f]) => itemHTML(`${g.id}.${iid}`, l, h, e, f)).join("")}</ul>`;
     if (g.products) {
-      body += `<div class="products">${g.products.map(([pid, pname, psub]) => `
+      body += `<div class="products">${g.products.map(([pid, pname, psub, got = [], skip = [], extra = []]) => `
         <div class="product"><h3>${pname}</h3><p class="sub">${psub}</p>
-        <ul class="items">${g.fields.map(([fid, fl, ess]) => itemHTML(`${g.id}.${pid}.${fid}`, fl, "", ess)).join("")}</ul></div>`).join("")}</div>`;
+        <ul class="items">${g.fields.filter(([fid]) => !skip.includes(fid)).map(([fid, fl, ess]) => itemHTML(`${g.id}.${pid}.${fid}`, fl, "", ess, got.includes(fid) ? "ok" : undefined)).join("")}${extra.map(([fid, fl, h, ess]) => itemHTML(`${g.id}.${pid}.${fid}`, fl, h, ess, "new")).join("")}</ul></div>`).join("")}</div>`;
     }
     return `<section class="group" aria-labelledby="h-${g.id}">
       <div class="group-head"><h2 id="h-${g.id}">${g.title}</h2><span class="count" data-count="${g.id}"></span></div>
