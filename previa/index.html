@@ -19,6 +19,7 @@
   --accent: #004440;
   --on-accent: #f8ede1;
   --gold: #8f6f34;        /* italic accents, darker Pôr do Sol for contrast */
+  --gold-hi: #d9b071;     /* sheen highlight on the gold italic */
   --sun: #fdce95;         /* Pôr do Sol */
   --sun-ink: #3d2a0c;
   --olive: #8b8163;       /* Reseda Verde */
@@ -33,14 +34,14 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0b2624; --surface: #11322f; --ink: #f3e8dc; --heading: #f8ede1; --muted: #b6b19f; --line: #21433f;
-    --accent: #fdce95; --on-accent: #10302c; --gold: #fdce95; --sun: #fdce95; --sun-ink: #3d2a0c;
+    --accent: #fdce95; --on-accent: #10302c; --gold: #fdce95; --gold-hi: #fff4e3; --sun: #fdce95; --sun-ink: #3d2a0c;
     --olive: #b9ae8c; --feld: #9fb09c; --deep: #071c1a; --on-deep: #f3e8dc; --veil: rgba(0, 0, 0, .6);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #0b2624; --surface: #11322f; --ink: #f3e8dc; --heading: #f8ede1; --muted: #b6b19f; --line: #21433f;
-  --accent: #fdce95; --on-accent: #10302c; --gold: #fdce95; --sun: #fdce95; --sun-ink: #3d2a0c;
+  --accent: #fdce95; --on-accent: #10302c; --gold: #fdce95; --gold-hi: #fff4e3; --sun: #fdce95; --sun-ink: #3d2a0c;
   --olive: #b9ae8c; --feld: #9fb09c; --deep: #071c1a; --on-deep: #f3e8dc; --veil: rgba(0, 0, 0, .6);
   color-scheme: dark;
 }
@@ -94,6 +95,27 @@ p { margin: 0; }
 section.block { padding-block: 72px; }
 .head { display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap; margin-bottom: 32px; }
 .head .eyebrow { margin-bottom: 10px; }
+
+/* Hero title: words rise in one after another; the gold italic keeps a slow sheen */
+.hero-title .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0 .08em .1em 0; margin-right: -.08em; }
+.hero-title .w > span { display: inline-block; animation: rise .9s cubic-bezier(.2, .7, .2, 1) both; animation-delay: calc(var(--i) * 110ms + 120ms); }
+.hero-title .sheen .w > span {
+  background: linear-gradient(100deg, var(--gold) 0%, var(--gold) 42%, var(--gold-hi) 50%, var(--gold) 58%, var(--gold) 100%);
+  background-size: 320% 100%; background-position: 100% 0;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: rise .9s cubic-bezier(.2, .7, .2, 1) both, sheen 6s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 110ms + 120ms), calc(var(--i) * 140ms + 1.4s);
+}
+.hero-copy > :not(h1) { animation: fadeUp .8s cubic-bezier(.2, .7, .2, 1) both; }
+.hero-copy > .eyebrow { animation-delay: .05s; }
+.hero-copy > .lead { animation-delay: .85s; }
+.hero-copy > .row { animation-delay: 1s; }
+@keyframes rise { from { transform: translateY(110%) rotate(3deg); } to { transform: none; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes sheen { 0% { background-position: 100% 0; } 45%, 100% { background-position: 0% 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-title .w > span, .hero-title .sheen .w > span, .hero-copy > :not(h1) { animation: none; }
+}
 
 /* Hero symbol: two layers (gradient + cut-out symbol) so the symbol can float and tilt in 3D */
 .arch.hero-3d { position: relative; display: grid; place-items: center; perspective: 900px; background: linear-gradient(180deg, #fdce95 0%, #fbdcb8 50%, #f6e8da 100%); }
@@ -393,7 +415,7 @@ function viewHome() {
   <div class="wrap hero">
     <div class="hero-copy">
       <span class="eyebrow">Skincare e bem-estar · Portugal</span>
-      <h1>Cuidando de você <span class="it">nos mínimos detalhes.</span></h1>
+      <h1 class="hero-title" aria-label="Cuidando de você nos mínimos detalhes."><span aria-hidden="true"><span class="w"><span style="--i:0">Cuidando</span></span> <span class="w"><span style="--i:1">de</span></span> <span class="w"><span style="--i:2">você</span></span> <span class="it sheen"><span class="w"><span style="--i:3">nos</span></span> <span class="w"><span style="--i:4">mínimos</span></span> <span class="w"><span style="--i:5">detalhes.</span></span></span></span></h1>
       <p class="lead">Cuidado com a pele e pequenos rituais de bem-estar, para tornar o dia a dia mais simples e mais especial.</p>
       <div class="row"><a class="btn solid" href="#loja">Ver produtos</a><a class="btn ghost" href="#sobre">Conhecer a Florisse</a></div>
     </div>
