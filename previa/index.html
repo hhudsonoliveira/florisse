@@ -73,7 +73,7 @@ nav.main a { text-decoration: none; padding-block: 4px; border-bottom: 1.5px sol
 nav.main a:hover, nav.main a[aria-current="page"] { border-bottom-color: var(--heading); color: var(--heading); }
 .cart-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: var(--on-accent); border: 0; border-radius: 99px; padding: 9px 16px; font-weight: 600; font-size: 14px; cursor: pointer; }
 .cart-btn .n { font-variant-numeric: tabular-nums; background: var(--on-accent); color: var(--accent); border-radius: 99px; min-width: 22px; height: 22px; display: inline-grid; place-content: center; font-size: 12px; padding-inline: 6px; }
-@media (max-width: 640px) { nav.main { order: 3; width: 100%; justify-content: center; gap: 28px; } }
+@media (max-width: 640px) { nav.main { order: 3; width: 100%; justify-content: center; gap: 22px; } }
 
 /* Type */
 .eyebrow { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; font-weight: 600; color: var(--olive); }
@@ -288,6 +288,7 @@ footer .bottom { border-top: 1px solid rgba(248, 237, 225, .2); padding-block: 1
       <img class="logo-dark" data-logo="branca" alt="Florisse">
     </a>
     <nav class="main" aria-label="Principal">
+      <a href="#inicio" data-nav="inicio">Início</a>
       <a href="#loja" data-nav="loja">Loja</a>
       <a href="#rotina" data-nav="rotina">Rotina</a>
       <a href="#sobre" data-nav="sobre">Sobre</a>
@@ -571,7 +572,7 @@ function route() {
   if (h === "loja" || h === "loja-aroma") { shopFilter = h === "loja-aroma" ? "aroma" : "todos"; app.innerHTML = viewShop(); nav = "loja"; }
   else if (h === "sobre") { app.innerHTML = viewAbout(); nav = "sobre"; }
   else if (h.startsWith("produto-") && byId(h.slice(8))) { pdpQty = 1; app.innerHTML = viewProduct(byId(h.slice(8))); nav = "loja"; }
-  else { app.innerHTML = viewHome(); if (h === "rotina") { nav = "rotina"; requestAnimationFrame(() => document.getElementById("rotina-sec")?.scrollIntoView()); } }
+  else { app.innerHTML = viewHome(); nav = "inicio"; if (h === "rotina") { nav = "rotina"; requestAnimationFrame(() => document.getElementById("rotina-sec")?.scrollIntoView()); } }
   document.querySelectorAll("[data-nav]").forEach(a => {
     if (a.dataset.nav === nav) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
   });
