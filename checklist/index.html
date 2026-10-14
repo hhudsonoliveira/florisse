@@ -180,28 +180,17 @@ const GROUPS = [
     ["fontes", "Licenças comerciais das fontes", "A Bogota veio só para uso pessoal e a The Seasons em versão demo. Para usar no site é preciso comprar a licença web. A Sinter não veio na pasta. Se preferir, uso fontes gratuitas parecidas.", true, "new"],
     ["refs", "3 a 5 sites ou marcas que admira", "Pode ser de cosmética ou não. Basta mandar os links.", false]
   ]},
-  { id: "prod", title: "Produtos", note: "Já recebi as fichas do Sérum, do Creme e do Kit Ritual Aromático, e sei que tudo vai ser vendido em separado e em kits, sempre conforme o stock. Para cada produto novo, envie os mesmos dados destas fichas.", items: [
-    ["linha", "Lista completa dos produtos da nova linha", "Nome de cada produto, se é para rosto ou corpo e se já está pronto para venda.", true, "new"],
+  { id: "prod", title: "Produtos", note: "Para começar, a loja vai ter três produtos: o Sérum, o Creme e o Kit Ritual Aromático. Já recebi as fichas dos três. Quando quiser juntar outros produtos, envie os mesmos dados destas fichas.", items: [
     ["lateral", "Foto de perto da lateral de cada rótulo", "Assim tiro a lista de ingredientes (INCI) diretamente do rótulo.", false, "new"],
     ["kitescolha", "No Kit Ritual, a cliente escolhe o queimador e a fragrância?", "Ou o kit vem com um modelo e uma fragrância definidos por si?", true, "new"],
-    ["avulsos", "Velas tealight e fósforos também são vendidos à parte?", "Já sei que o queimador e as caixas de wax melts vão ser vendidos separadamente.", false, "new"],
-    ["kitspele", "Kits de cuidado com a pele", "Por exemplo Sérum + Creme. Diga que kits quer ter e o preço de cada um.", false, "new"]
+    ["kitspele", "Kits de cuidado com a pele, para mais tarde", "Por exemplo Sérum + Creme. Quando quiser vender kits ou peças avulsas, diga quais e o preço de cada um.", false, "new"]
   ], products: [
     ["serumh", "Sérum Facial Hidratante", "30 ml · Niacinamida e ácido hialurónico", ["nome", "desc", "ativos", "uso"]],
     ["hydralock", "Creme HydraLock Barrier", "50 ml · Péptidos e antioxidantes", ["nome", "preco", "desc", "ativos", "uso"]],
     ["ritual", "Kit Ritual Aromático", "Queimador, wax melts, velas e fósforos", ["nome", "desc", "uso"], ["ativos", "inci"], [
       ["fragancias", "Fragrâncias dos wax melts e rótulo de segurança", "Velas e wax melts perfumados precisam de rótulo com alergénios e avisos de segurança (regras CLP da UE).", true],
-      ["fotokit", "Fotos do kit aberto e completo", "", true]
-    ]],
-    ["queimador", "Queimadores", "Vendidos à parte, em vários modelos", ["desc"], ["ativos", "inci", "uso"], [
-      ["modelos", "Nome e foto de cada modelo", "A cliente escolhe o modelo na loja, conforme o stock.", true],
-      ["material", "Material e medidas", "Por exemplo: cerâmica, altura e largura.", false]
-    ]],
-    ["wax", "Caixas de wax melts", "Produção artesanal, em caixinhas prontas", ["desc"], ["ativos", "inci"], [
-      ["fragr", "Lista de fragrâncias disponíveis", "Só as que tiver em stock. Na loja, cada fragrância é uma opção com stock próprio.", true],
-      ["conteudo", "Conteúdo da caixa", "Peso total e número de peças.", false],
-      ["clp", "Rótulo de segurança (CLP)", "Wax melts perfumados precisam de rótulo com alergénios e avisos de segurança.", true],
-      ["fotowax", "Fotos das caixas e dos formatos", "Flores, rosas, folhas e corações.", true]
+      ["fotokit", "Fotos do kit aberto e completo", "", true],
+      ["modelos", "Modelos de queimador e fragrâncias disponíveis", "Nome e foto de cada um. Na loja, a cliente escolhe conforme o stock.", true]
     ]]
   ], fields: [
     ["nome", "Nome final e tamanho (ml ou g)", true],
