@@ -201,6 +201,15 @@ section.block { padding-block: 72px; }
 .founder b { display: block; color: var(--heading); }
 .founder span { font-size: 14px; color: var(--muted); }
 
+/* Brand story (Sobre) */
+.brand-story { display: grid; grid-template-columns: .9fr 1.1fr; gap: 56px; padding-block: 64px 72px; align-items: start; }
+.bs-head { display: grid; gap: 14px; position: sticky; top: 110px; }
+.bs-head h1 { font-size: clamp(42px, 6vw, 76px); }
+.bs-sub { font-family: var(--font-accent); font-style: italic; font-size: 24px; color: var(--gold); margin-top: -6px; }
+.bs-body { display: grid; gap: 16px; font-size: 17px; line-height: 1.7; max-width: 60ch; }
+.bs-body p:first-child { font-size: 20px; color: var(--heading); }
+@media (max-width: 860px) { .brand-story { grid-template-columns: 1fr; gap: 24px; padding-block: 40px 48px; } .bs-head { position: static; } }
+
 /* Founder section */
 .founder-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 56px; align-items: start; }
 .founder-photo { position: sticky; top: 110px; }
@@ -345,7 +354,7 @@ footer .bottom { border-top: 1px solid rgba(248, 237, 225, .2); padding-block: 1
   <div class="wrap top">
     <div style="display:grid;gap:14px;align-content:start">
       <img class="flogo" data-logo="branca" alt="Florisse">
-      <p style="opacity:.85;max-width:34ch">Cosmética natural para o rosto e o corpo. Cuidando de você nos mínimos detalhes.</p>
+      <p style="opacity:.85;max-width:34ch"><span style="font-family:var(--font-accent);font-style:italic;font-size:20px">Beauty in Your Time.</span><br>A beleza no seu tempo.</p>
       <div class="pay" aria-label="Formas de pagamento"><span>MB WAY</span><span>Multibanco</span><span>Visa</span><span>Mastercard</span></div>
     </div>
     <div><h4>Loja</h4><ul><li><a href="#loja">Todos os produtos</a></li><li><a href="#produto-ritual">Kit Ritual Aromático</a></li><li><a href="#rotina">A rotina Florisse</a></li></ul></div>
@@ -376,7 +385,7 @@ const PENDING_INCI = '<span class="pending">a enviar</span> A lista completa de 
 
 // options: [{ name, values: [[label, stock]] }]. Model and fragrance names are placeholders until the real list arrives.
 const PRODUCTS = [
-  { id: "serum", name: "Sérum Facial Hidratante", sub: "Hidratação, suavidade e cuidado", cats: ["rosto"], price: 24.9, size: "30 ml", imgs: ["real_serum"], stock: 8,
+  { id: "serum", name: "Sérum Facial Hidratante", sub: "Hidratação, suavidade e cuidado", cats: ["rosto"], price: 24.9, size: "30 ml", imgs: ["real_serum"], stock: 18,
     desc: "Desenvolvido para ajudar a hidratar, suavizar e reforçar a barreira cutânea, para uma pele com aparência mais luminosa e equilibrada.",
     details: [
       ["Benefícios", list(["Ajuda a manter a hidratação da pele", "Contribui para uma aparência mais uniforme e luminosa", "Ajuda a reforçar a barreira cutânea", "Proporciona uma sensação de suavidade e conforto"])],
@@ -385,7 +394,7 @@ const PRODUCTS = [
       ["Ingredientes (INCI)", PENDING_INCI],
       ["Precauções", CARE]
     ] },
-  { id: "creme", name: "Creme HydraLock Barrier", sub: "Nutrição e textura mais suave", cats: ["rosto"], price: 27.9, size: "50 ml", imgs: ["real_creme"], stock: 6,
+  { id: "creme", name: "Creme HydraLock Barrier", sub: "Nutrição e textura mais suave", cats: ["rosto"], price: 27.9, size: "50 ml", imgs: ["real_creme"], stock: 17,
     desc: "Combina péptidos, ingredientes hidratantes e extratos vegetais numa fórmula que nutre a pele, ajuda a preservar a sua barreira natural e melhora a aparência da textura cutânea.",
     details: [
       ["Benefícios", list(["Ajuda a manter a hidratação da pele", "Contribui para o conforto e a suavidade cutânea", "Ajuda a melhorar a aparência da textura da pele", "Complementa uma rotina para hidratação e sinais de envelhecimento"])],
@@ -455,7 +464,7 @@ function viewHome() {
   return `
   <div class="wrap hero">
     <div class="hero-copy">
-      <span class="eyebrow">Skincare e bem-estar · Portugal</span>
+      <span class="eyebrow">Beauty in your time · Portugal</span>
       <h1 class="hero-title" aria-label="Cuidando de você nos mínimos detalhes."><span aria-hidden="true"><span class="w"><span style="--i:0">Cuidando</span></span> <span class="w"><span style="--i:1">de</span></span> <span class="w"><span style="--i:2">você</span></span> <span class="it sheen"><span class="w"><span style="--i:3">nos</span></span> <span class="w"><span style="--i:4">mínimos</span></span> <span class="w"><span style="--i:5">detalhes.</span></span></span></span></h1>
       <p class="lead">Cuidado com a pele e pequenos rituais de bem-estar, para tornar o dia a dia mais simples e mais especial.</p>
       <div class="row"><a class="btn solid" href="#loja">Ver produtos</a><a class="btn ghost" href="#sobre">Conhecer a Florisse</a></div>
@@ -581,8 +590,26 @@ function viewProduct(p) {
   </div>`;
 }
 
+/* Brand story, written by Dayse ("A Nossa História") */
+const STORY = ["A FLORISSE nasceu do desejo de transformar os cuidados pessoais em momentos especiais de bem-estar, beleza e conexão connosco próprias.", "Mais do que uma marca de beleza, a FLORISSE é um convite a abrandar, a dedicar tempo a si própria e a valorizar aquilo que torna cada mulher única.", "Fundada por uma profissional apaixonada pela estética e pelo bem-estar, a FLORISSE representa a concretização de um sonho construído com dedicação, coragem e propósito.", "Acreditamos que a beleza não tem de seguir padrões nem calendários. Cada mulher tem o seu ritmo, a sua essência e a sua própria forma de florescer.", "É esta filosofia que dá significado à nossa assinatura: Beauty in Your Time, a beleza no seu tempo.", "Através de produtos de cuidados de pele, fragrâncias e experiências sensoriais, procuramos tornar os pequenos rituais do dia a dia em momentos de prazer e tranquilidade.", "A delicadeza, a autenticidade e a elegância estão presentes na forma como pensamos cada detalhe da marca.", "Porque cuidar de si não deve ser um luxo reservado a ocasiões especiais, mas um gesto de carinho que merece fazer parte da sua rotina."];
+function storySection() {
+  return `<section class="wrap brand-story">
+    <div class="bs-head">
+      <span class="eyebrow">A nossa história</span>
+      <h1>Beauty in <span class="it">your time</span></h1>
+      <p class="bs-sub">A beleza no seu tempo</p>
+    </div>
+    <div class="bs-body">${STORY.map(p => `<p>${p}</p>`).join("")}</div>
+  </section>
+  <div class="band" style="background-image:url('${src("band")}')" role="presentation"></div>
+  <section class="quote"><div class="wrap">
+    <blockquote>Respeite o seu tempo. Valorize a sua essência. <span class="it">Floresça à sua maneira.</span></blockquote>
+    <cite>Florisse</cite>
+  </div></section>`;
+}
+
 function viewAbout() {
-  return `${founderSection(true)}<div class="wrap">
+  return `${storySection()}${founderSection(true)}<div class="wrap">
     <section class="block" style="padding-top:0">
       <div class="head"><div><div class="eyebrow">No que acreditamos</div><h2>A marca é</h2></div></div>
       <div class="values">

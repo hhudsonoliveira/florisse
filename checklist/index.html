@@ -185,8 +185,8 @@ const GROUPS = [
     ["kitescolha", "No Kit Ritual, a cliente escolhe o queimador e a fragrância?", "Ou o kit vem com um modelo e uma fragrância definidos por si?", true, "new"],
     ["kitspele", "Kits de cuidado com a pele, para mais tarde", "Por exemplo Sérum + Creme. Quando quiser vender kits ou peças avulsas, diga quais e o preço de cada um.", false, "new"]
   ], products: [
-    ["serumh", "Sérum Facial Hidratante", "30 ml · Niacinamida e ácido hialurónico", ["nome", "preco", "desc", "ativos", "uso"]],
-    ["hydralock", "Creme HydraLock Barrier", "50 ml · Péptidos e antioxidantes", ["nome", "preco", "desc", "ativos", "uso"]],
+    ["serumh", "Sérum Facial Hidratante", "30 ml · Niacinamida e ácido hialurónico", ["nome", "preco", "desc", "ativos", "uso", "stock"]],
+    ["hydralock", "Creme HydraLock Barrier", "50 ml · Péptidos e antioxidantes", ["nome", "preco", "desc", "ativos", "uso", "stock"]],
     ["ritual", "Kit Ritual Aromático", "Queimador, wax melts, velas e fósforos", ["nome", "desc", "uso"], ["ativos", "inci"], [
       ["fragancias", "Fragrâncias dos wax melts e rótulo de segurança", "Velas e wax melts perfumados precisam de rótulo com alergénios e avisos de segurança (regras CLP da UE).", true],
       ["fotokit", "Fotos do kit aberto e completo", "", true],
@@ -209,7 +209,7 @@ const GROUPS = [
   ]},
   { id: "txt", title: "Textos", note: "A apresentação da marca já traz a personalidade e o tom de voz. Agora falta a sua história, contada por si. Pode mandar por áudio no WhatsApp.", items: [
     ["historia", "A sua história e a da Florisse", "Recebido o texto \"Conheça a Fundadora\". Já está na página Sobre e na página inicial.", true, "ok"],
-    ["missao", "Frase principal da marca", "Do manual já tenho \"Cuidando de você nos mínimos detalhes\". Diga se é essa a principal.", false],
+    ["missao", "Frase principal da marca", "Recebida a assinatura Beauty in Your Time e o texto A Nossa História, já na página Sobre.", false, "ok"],
     ["depo", "Depoimentos de clientes", "Prints de mensagens também servem (pedimos autorização antes de publicar).", false]
   ]},
   { id: "neg", title: "Dados do negócio", note: "Aparecem no rodapé do site e nas faturas.", items: [
